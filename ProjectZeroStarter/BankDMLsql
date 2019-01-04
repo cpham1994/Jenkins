@@ -1,0 +1,94 @@
+-- Addresses
+insert into address (lineone, city, state, zip)
+    values ('432 Main Street', 'Pittsburgh', 'PA', '14523'); 
+
+insert into address (lineone, city, state, zip)
+    values ('634 Craig Street', 'Pittsburgh', 'PA', '16548'); 
+    
+insert into address (lineone, city, state, zip)
+    values ('9542 Varrock Way', 'Pittsburgh', 'PA', '21474'); 
+    
+insert into address (lineone, city, state, zip)
+    values ('7541 Glaids Road', 'Pittsburgh', 'PA', '15243'); 
+    
+insert into address (lineone, linetwo, city, state, zip)
+    values ('120 Washington Road', 'Apt 14', 'Pittsburgh', 'PA', '15234'); 
+    
+--Users
+insert into users (name, address_id, phone_number, email, username, password)
+    values ('John Smith', 1, '5143492593', 'jsmith@gmail.com', 'jsmith', 'hello');
+    
+insert into users (name, address_id, phone_number, email, username, password)
+    values ('Bob Marley', 2, '4128392453', 'bmarley@gmail.com', 'bmarley', 'hello');
+    
+insert into users (name, address_id, phone_number, email, username, password)
+    values ('Megan Riley', 3, '6854852356', 'mriley@gmail.com', 'mriley', 'hello');
+    
+insert into users (name, address_id, phone_number, email, username, password)
+    values ('Trevor Johnson', 4, '7245648523', 'tjohnson@gmail.com', 'tjohnson', 'hello');
+    
+insert into users (name, address_id, phone_number, email, username, password)
+    values ('Jack May', 5, '9874561245', 'jmay@gmail.com', 'jmay', 'hello');
+    
+--Accounts
+insert into account (balance, account_type, status)     --1
+    values (1000.00, 'checking', 1);
+insert into account (balance, account_type, status)     --2
+    values (1000.00, 'savings', 1);
+insert into account (balance, account_type, status)     --3
+    values (1000.00, 'checking', 1);
+insert into account (balance, account_type, status)     --4
+    values (1000.00, 'savings', 1);
+insert into account (balance, account_type, status)     --5
+    values (1000.00, 'checking', 1);
+insert into account (balance, account_type, status)     --6
+    values (1000.00, 'savings', 1);
+insert into account (balance, account_type, status)     --7
+    values (1000.00, 'checking', 1);
+insert into account (balance, account_type, status)     --8
+    values (1000.00, 'savings', 1);
+insert into account (balance, account_type, status)     --9
+    values (1000.00, 'checking', 1);
+insert into account (balance, account_type, status)     --10
+    values (1000.00, 'savings', 1);
+insert into account (balance, account_type, status)     --11
+    values (1000.00, 'joint', 1);
+    
+--Adding to bridge table
+--id 1
+insert into user_account (user_id, account_id)
+    values((select userid from users where userid = 1), (select accountid from account where accountid = 1));
+
+insert into user_account (user_id, account_id)
+    values((select userid from users where userid = 1), (select accountid from account where accountid = 2));
+    
+insert into user_account (user_id, account_id)
+    values((select userid from users where userid = 2), (select accountid from account where accountid = 3));
+
+insert into user_account (user_id, account_id)
+    values((select userid from users where userid = 2), (select accountid from account where accountid = 4));
+    
+insert into user_account (user_id, account_id)
+    values((select userid from users where userid = 3), (select accountid from account where accountid = 5));
+
+insert into user_account (user_id, account_id)
+    values((select userid from users where userid = 3), (select accountid from account where accountid = 6));
+    
+insert into user_account (user_id, account_id)
+    values((select userid from users where userid = 4), (select accountid from account where accountid = 7));
+
+insert into user_account (user_id, account_id)
+    values((select userid from users where userid = 4), (select accountid from account where accountid = 8));
+    
+insert into user_account (user_id, account_id)
+    values((select userid from users where userid = 5), (select accountid from account where accountid = 9));
+
+insert into user_account (user_id, account_id)
+    values((select userid from users where userid = 5), (select accountid from account where accountid = 10));
+    
+insert into user_account (user_id, account_id)
+    values((select userid from users where userid = 5), (select accountid from account where accountid = 11));
+    
+ 
+commit;  
+

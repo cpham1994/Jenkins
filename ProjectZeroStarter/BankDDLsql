@@ -1,0 +1,112 @@
+drop table users cascade constraints;
+drop table account cascade constraints;
+drop table user_account cascade constraints;
+drop table address cascade constraints;
+
+drop sequence address_seq; 
+drop sequence users_seq;
+drop sequence account_seq;
+
+--Building the Schema
+create table address(
+    addressid number (10) primary key, 
+    lineone varchar2(100) not null,
+    linetwo varchar2(100),
+    city varchar2(100) not null,
+    state varchar2(3) not null,
+    zip varchar2(10) not null   
+); 
+
+create table users(
+    userid number(20) primary key,
+    name varchar(256) unique not null,
+    address_id number(20) not null,
+    phone_number number(10) not null,
+    email varchar(100) not null,
+    username varchar(100) not null,
+    password varchar(100) not  null,
+    constraint fk_userAddress foreign key (address_id) references address(addressid)
+    );
+    
+create table account(
+    accountid number(20) primary key,
+    balance number (8, 2), 
+    account_type varchar (20) not null, 
+    status number (1) 
+    ); 
+    
+create table user_account(
+    user_id number (20),
+    account_id number (20),
+    constraint pk_useraccount primary key (user_id, account_id),
+    constraint fk_useraccount foreign key (user_id) references users(userid),
+    constraint fk_account foreign key (account_id) references account(accountid)
+);
+--Sequences
+create sequence address_seq; 
+create sequence users_seq;
+create sequence account_seq;
+--Triggers
+create or replace trigger address_pk_trig
+before insert or update on address
+for each row
+begin
+    if INSERTING then
+        select address_seq.nextVal into :new.addressid from dual;
+    elsif UPDATING then
+        select :old.addressid into :new.addressid from dual;
+    end if;
+end;
+/
+
+create or replace trigger users_pk_trig
+before insert or update on users
+for each row
+begin
+    if INSERTING then
+        select users_seq.nextVal into :new.userid from dual;
+    elsif UPDATING then
+        select :old.userid into :new.userid from dual;
+    end if;
+end;
+/
+
+create or replace trigger account_pk_trig
+before insert or update on account
+for each row
+begin
+    if INSERTING then
+        select account_seq.nextVal into :new.accountid from dual;
+    elsif UPDATING then
+        select :old.accountid into :new.accountid from dual;
+    end if;
+end;
+/
+ 
+
+--Stored Procedure to view user personal information
+create or replace procedure view_user_personal
+(user_in in number, updated_row out sys_refcursor)
+
+as
+
+begin
+    open updated_row for
+    select name, phone_number, email, address.lineone, address.linetwo, address.city, address.state, address.zip from users join address on users.address_id = address.addressid 
+    where userid = user_in;
+end;
+/
+--stored procedure to view users personal account
+
+create or replace procedure view_user_account
+(user_in in number, updated_row out sys_refcursor)
+
+as
+
+begin
+    open updated_row for select balance, account_type, accountid from account join user_account
+    on account.accountid = user_account.account_id 
+    where user_id = user_in; 
+end view_user_account;
+/
+

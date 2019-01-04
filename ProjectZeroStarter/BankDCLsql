@@ -1,0 +1,19 @@
+drop user bankapp cascade;
+
+create user bankapp
+ 
+identified by p4ssw0rd
+
+default tablespace users
+
+temporary tablespace temp
+
+quota 10m on users;
+
+grant connect to bankapp;
+
+grant resource to bankapp;
+
+grant create session to bankapp;
+grant create table to bankapp;
+grant create view to bankapp; 
